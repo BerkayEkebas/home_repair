@@ -1,131 +1,90 @@
-import * as React from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAuth } from '../../Context/authContext'; // AuthContext'ten useAuth hook'unu import et
+import React, { useState } from 'react';
+import { TextField, Button, Box, CircularProgress, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Context/authContext';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
-
-export default function SignIn() {
+const Login = () => {
+  const { login } = useAuth(); // AuthContext'ten login fonksiyonunu alıyoruz
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();  
-  const { login } = useAuth(); // AuthContext'ten login işlevini al
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError(''); // Hata mesajını sıfırla
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
-      await login(email, password); // Giriş işlemini AuthContext üzerinden yap
-
-      navigate('/admin'); 
-      window.location.href = '/admin' // Başarılıysa admin sayfasına yönlendir
+      await login(email, password); // AuthContext'teki login fonksiyonunu çağırıyoruz
+      navigate('/dashboard'); // Başarılı giriş sonrası yönlendirme
     } catch (err) {
-      console.error(err);
-      setError('Giriş başarısız. Lütfen bilgilerinizi kontrol ediniz.'); // Hata mesajını göster
+      setLoading(false);
+      setError('Giriş başarısız, lütfen bilgilerinizi kontrol edin.');
     }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'lightcoral' }}></Avatar>
-          <Typography component="h1" variant="h5">
-            Admin Girişi
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        maxWidth: 400,
+        margin: '0 auto',
+        padding: 3,
+      }}
+    >
+      <Typography variant="h4" sx={{ marginBottom: 3 }}>
+        Giriş Yap
+      </Typography>
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+        <TextField
+          label="E-posta"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Şifre"
+          type="password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {error && (
+          <Typography color="error" sx={{ marginTop: 2 }}>
+            {error}
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Şifre"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Beni Hatıra"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Giriş Yap
-            </Button>
-            {error && (
-              <Typography color="error" variant="body2">
-                {error}
-              </Typography>
-            )}
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Şifremi unuttum
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Hesabınız Yokmu? Kayıt Olun"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+        )}
+        <Box sx={{ marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Giriş Yap'}
+          </Button>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+      </form>
+      <Box sx={{ marginTop: 2, textAlign: 'center' }}>
+        <Typography variant="body2">
+          Henüz üye değil misiniz?{' '}
+          <Button color="primary" onClick={() => navigate('/register')}>
+            Kayıt Ol
+          </Button>
+        </Typography>
+      </Box>
+    </Box>
   );
-}
+};
+
+export default Login;

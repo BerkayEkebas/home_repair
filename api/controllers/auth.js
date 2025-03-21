@@ -26,9 +26,29 @@ db.query(q,[email], (err, data)=>{
 
 }
 
-export const login = (req, res)=>{
+export const login = (req, res) => {
+    const { email, password } = req.body;
 
-}
-export const logout = (req, res)=>{
+    // Kullanıcıyı email ile bul
+    const q = "SELECT * FROM users WHERE email = ?";
+    db.query(q, [email], (err, data) => {
+        if (err) return res.status(500).json(err);
+        if (data.length === 0) return res.status(404).json("Kullanıcı bulunamadı");
 
-}
+        const user = data[0];  // Kullanıcıyı veritabanından alıyoruz
+
+        // Şifreyi karşılaştır
+        const isPasswordValid = bcrypt.compareSync(password, user.password);
+        if (!isPasswordValid) return res.status(401).json("Hatalı şifre");
+
+        // Şifreyi kullanıcı verisinden kaldırarak döndür
+        const { password: userPassword, ...userData } = user;  // Şifreyi dışarıya göndermiyoruz
+        return res.status(200).json({ user: userData });
+    });
+};
+
+
+export const logout = (req, res) => {
+   
+    return res.status(200).json("Çıkış başarılı.");
+};

@@ -7,43 +7,52 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem('token');
-    const email = localStorage.getItem('email');
-    const isAdmin = localStorage.getItem('isAdmin');
-    return token ? { email, isAdmin, token } : null;
+    const storedUser = localStorage.getItem('user');
+    return token && storedUser ? JSON.parse(storedUser) : null;
   });
+
   const navigate = useNavigate();
 
-  // Kullanıcıyı giriş yaptıran işlev
+  // Kullanıcı giriş fonksiyonu
   const login = async (email, password) => {
     try {
       const response = await axios.post('http://localhost:8800/api/auth/login', { email, password });
-      const { token, isAdmin } = response.data;
+      const { user } = response.data; // Backend'den gelen user nesnesi
+      
+      // Kullanıcı bilgilerini localStorage'e kaydet
+      localStorage.setItem('user', JSON.stringify(user));
 
-      // LocalStorage'e kullanıcı bilgilerini kaydet
-      localStorage.setItem('email', email);
-      localStorage.setItem('isAdmin', isAdmin);
-      localStorage.setItem('token', token);
+      setUser(user); // State'i güncelle
 
-      // Kullanıcı bilgisini state'e set et
-      setUser({ email, isAdmin, token });
-
-      navigate('/admin'); // Başarılı giriş sonrası yönlendirme
+      // Kullanıcının rolüne göre yönlendirme yap
+      if (user.role === 'customer') {
+        navigate('/customer-dashboard');
+      } else if (user.role === 'expert') {
+        navigate('/expert-dashboard');
+      } else {
+        navigate('/'); // Geçerli rol yoksa ana sayfaya yönlendir
+      }
     } catch (error) {
       console.error('Giriş hatası:', error);
       throw new Error('Giriş başarısız. Lütfen bilgilerinizi kontrol ediniz.');
     }
   };
 
-  // Kullanıcıyı çıkış yaptıran işlev
+  // Kullanıcı çıkış fonksiyonu
   const logout = async () => {
-    localStorage.removeItem('email');
-    localStorage.removeItem('isAdmin');
-    localStorage.removeItem('token');
-    setUser(null);
-    await axios.post(
-      "http://localhost:8800/api/auth/logout",
-    );
-    navigate('/login'); // Çıkış sonrası yönlendirme
+    try {
+      await axios.post('http://localhost:8800/api/auth/logout');
+
+      // localStorage temizle
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+
+      setUser(null); // State sıfırla
+
+      navigate('/login'); // Çıkış sonrası yönlendirme
+    } catch (error) {
+      console.error('Çıkış hatası:', error);
+    }
   };
 
   return (
@@ -53,5 +62,5 @@ export function AuthProvider({ children }) {
   );
 }
 
-// useAuth hook'u kullanarak AuthContext'e erişim sağlama
+// useAuth hook'u ile AuthContext'e erişim
 export const useAuth = () => useContext(AuthContext);

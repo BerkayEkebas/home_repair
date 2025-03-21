@@ -1,23 +1,16 @@
-// Header.js
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link, useNavigate } from "react-router-dom";
-import { useNavContext } from "../../Context/navContext"; // Context'i import et
-import axios from "axios";
-import MainTop from "../Body/MainTop";
+import { Link } from "react-router-dom";
+import { Menu, MenuItem } from "@mui/material"; // MUI Bileşenleri Eklendi
+import NewNavbar from "./NewNavbar";
 
 const Header = () => {
-  const { setNavInfo } = useNavContext(); // Context'ten değeri al
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCollapsing, setIsCollapsing] = useState(false);
-  const [adsimages, setAdsImages] = useState([]);
-  const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null); // Dropdown için anchorEl
 
-  const handleNavClick = (navItem) => {
-    setNavInfo(navItem); // Tıklanan butona göre navInfo'yu ayarla 
-  };
+  const userRole = localStorage.getItem("user");
 
   const handleToggle = () => {
     setIsNavOpen(!isNavOpen);
@@ -29,40 +22,32 @@ const Header = () => {
       setTimeout(() => {
         setIsCollapsing(false);
         setIsSearchOpen(false);
-      }, 300); // CSS transition süresiyle aynı olmalı
+      }, 300);
     } else {
       setIsCollapsing(true);
       setTimeout(() => {
         setIsCollapsing(false);
         setIsSearchOpen(true);
-      }, 300); // CSS transition süresiyle aynı olmalı
+      }, 300);
     }
   };
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchInput.trim() !== "") {
-      navigate(`/search/${searchInput.trim()}`);
-    }
-  };
   useEffect(() => {
-    // API'den verileri çekmek için useEffect kullanıyoruz
-    const fetchAds = async () => {
-      try {
-        const resImages = await axios.get("http://localhost:8800/api/ads/allAds");
-        setAdsImages(resImages.data);
+    console.log(userRole);
+  }, []);
 
-      } catch (error) {
-        console.error("Error fetching most viewed announcements:", error);
-      }
-    };
+  // Dropdown Menüyü Aç/Kapat
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    fetchAds();
-  }, []);  // location, URL değiştikçe useEffect'i tetikler
-
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
+      {/* Search */}
       <div
         className={`top-search ${isCollapsing ? "collapsing" : ""} ${isSearchOpen ? "collapse show" : "collapse"
           }`}
@@ -75,12 +60,11 @@ const Header = () => {
       >
         <div className="card card-block">
           <div className="newsletter-widget text-center">
-            <form className="form-inline" onSubmit={handleSearchSubmit}>
+            <form className="form-inline">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Aramak istediğiniz kelimeyi giriniz"
-                onChange={(e) => setSearchInput(e.target.value)}
               />
               <button type="submit" className="btn btn-primary">
                 <SearchIcon />
@@ -91,16 +75,13 @@ const Header = () => {
       </div>
 
       <div className="mobile-navbar" style={{ backgroundColor: "#34a346", padding: "10px 15px" }}>
-        <div
-          className="d-flex align-items-center justify-content-between"
-          style={{ height: "50px" }}
-        >
-                    <div
+        <div className="d-flex align-items-center justify-content-between" style={{ height: "50px" }}>
+          <div
             className="deneme d-flex align-items-center"
-            style={{ cursor: "pointer", color: "white", marginLeft: '50px' }} // Arama ikonunun rengini beyaz yap
+            style={{ cursor: "pointer", color: "white", marginLeft: '50px' }}
           >
             <a
-            style={{ color: "white" }} 
+              style={{ color: "white" }} 
               href="https://www.linkedin.com/company/duyurular-org/"
               data-toggle="tooltip"
               data-placement="bottom"
@@ -109,16 +90,9 @@ const Header = () => {
               <i className="fa fa-linkedin" />
             </a>
           </div>
+
           {/* Logo */}
-          <div
-            className="logo-container"
-            style={{
-              backgroundColor: "transparent", // Logo kısmının arka planını beyaz yap
-              padding: "70px 70px",
-              borderRadius: "5px",
-              marginLeft: '5%',
-            }}
-          >
+          <div className="logo-container" style={{ backgroundColor: "transparent", padding: "70px 70px", borderRadius: "5px", marginLeft: '5%' }}>
             <img
               src="https://cdn.imweb.me/thumbnail/20241114/974b51e91d3aa.png"
               alt="Logo"
@@ -132,7 +106,7 @@ const Header = () => {
           {/* Search Icon */}
           <div
             className="search-container d-flex align-items-center"
-            style={{ cursor: "pointer", color: "white", marginRight: '70px' }} // Arama ikonunun rengini beyaz yap
+            style={{ cursor: "pointer", color: "white", marginRight: '70px' }}
             onClick={handleSearchBar}
           >
             <SearchIcon style={{ fontSize: "24px" }} />
@@ -141,66 +115,12 @@ const Header = () => {
         </div>
       </div>
 
-
-
-
+      {/* Navbar */}
       <header className="header">
         <div className="container">
-          <nav className="navbar navbar-expand-md navbar-inverse">
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={handleToggle}
-              aria-controls="ForestTimemenu"
-              aria-expanded={isNavOpen}
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div
-              className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
-              id="ForestTimemenu"
-            >
-              <ul className="navbar-nav mx-auto">
-                <li className="nav-item">
-                  <Link className="nav-link color-green-hover" to="/anasayfa" onClick={() => handleNavClick("anasayfa")}>
-                    Anasayfa
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link color-green-hover" to="/cumhurbaskanligi" onClick={() => handleNavClick("cumhurbaskanligi")}>
-                    Cumhurbaşkanlığı
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link color-green-hover" to="/bakanliklar" onClick={() => handleNavClick("bakanliklar")}>
-                    Bakanlıklar
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link color-green-hover" to="/kurumlar" onClick={() => handleNavClick("kurumlar")}>
-                    Kurumlar
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link color-green-hover" to="/resmi-gazete" onClick={() => handleNavClick("resmi-gazete")}>
-                    Resmi Gazete
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link color-green-hover" to="/register" onClick={() => handleNavClick("iletisim")}>
-                    Register
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
+          <NewNavbar/>
         </div>
       </header>
-      
-
-
-
 
       <style>
         {`
