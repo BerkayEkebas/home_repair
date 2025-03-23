@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"; // Ok ikonu eklendi
 
-const NewNavbar = () => {
+const ExpertNavbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown menünün açık olup olmadığını takip eden state
@@ -111,12 +111,12 @@ const NewNavbar = () => {
           </li>
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/auth">
-              Login
+              Find Job
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/register">
-              Register
+              My Page
             </Link>
           </li>
         </ul>
@@ -125,4 +125,4 @@ const NewNavbar = () => {
   );
 };
 
-export default NewNavbar;
+export default ExpertNavbar;

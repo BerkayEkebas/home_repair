@@ -17,18 +17,19 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const response = await axios.post('http://localhost:8800/api/auth/login', { email, password });
-      const { user } = response.data; // Backend'den gelen user nesnesi
+      const { user,role } = response.data; // Backend'den gelen user nesnesi
       
       // Kullanıcı bilgilerini localStorage'e kaydet
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('role', JSON.stringify(role));
 
       setUser(user); // State'i güncelle
 
       // Kullanıcının rolüne göre yönlendirme yap
       if (user.role === 'customer') {
-        navigate('/customer-dashboard');
+        navigate('/');
       } else if (user.role === 'expert') {
-        navigate('/expert-dashboard');
+        navigate('/');
       } else {
         navigate('/'); // Geçerli rol yoksa ana sayfaya yönlendir
       }
@@ -44,7 +45,7 @@ export function AuthProvider({ children }) {
       await axios.post('http://localhost:8800/api/auth/logout');
 
       // localStorage temizle
-      localStorage.removeItem('token');
+      localStorage.removeItem('role');
       localStorage.removeItem('user');
 
       setUser(null); // State sıfırla

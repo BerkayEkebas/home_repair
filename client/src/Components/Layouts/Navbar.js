@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
-import { Menu, MenuItem } from "@mui/material"; // MUI Bileşenleri Eklendi
 import NewNavbar from "./NewNavbar";
+import CustomerNavbar from "./CustomerNavbar";
+import ExpertNavbar from "./ExpertNavbar";
+import { useAuth } from "../../Context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const [isNavOpen, setIsNavOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCollapsing, setIsCollapsing] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null); // Dropdown için anchorEl
+  const userRole = localStorage.getItem("role")?.replace(/"/g, "") || ""; // Burada tırnaklar kaldırılacak.
+  const { logout } = useAuth(); 
+  const navigate = useNavigate();
 
-  const userRole = localStorage.getItem("user");
+  const handleLogout = async (e) => {
+    e.preventDefault();
 
-  const handleToggle = () => {
-    setIsNavOpen(!isNavOpen);
+    try {
+      await logout(); // AuthContext'teki login fonksiyonunu çağırıyoruz
+      navigate('/'); // Başarılı giriş sonrası yönlendirme
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   const handleSearchBar = () => {
@@ -30,19 +38,6 @@ const Header = () => {
         setIsSearchOpen(true);
       }, 300);
     }
-  };
-
-  useEffect(() => {
-    console.log(userRole);
-  }, []);
-
-  // Dropdown Menüyü Aç/Kapat
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
   };
 
   return (
@@ -76,20 +71,18 @@ const Header = () => {
 
       <div className="mobile-navbar" style={{ backgroundColor: "#34a346", padding: "10px 15px" }}>
         <div className="d-flex align-items-center justify-content-between" style={{ height: "50px" }}>
-          <div
+
+
+        <div
             className="deneme d-flex align-items-center"
             style={{ cursor: "pointer", color: "white", marginLeft: '50px' }}
           >
-            <a
-              style={{ color: "white" }} 
-              href="https://www.linkedin.com/company/duyurular-org/"
-              data-toggle="tooltip"
-              data-placement="bottom"
-              title="LinkedIn"
-            >
-              <i className="fa fa-linkedin" />
-            </a>
+            {userRole ? <p onClick={handleLogout}>Logout</p> : "" }
+              
+
           </div>
+        
+
 
           {/* Logo */}
           <div className="logo-container" style={{ backgroundColor: "transparent", padding: "70px 70px", borderRadius: "5px", marginLeft: '5%' }}>
@@ -103,7 +96,6 @@ const Header = () => {
             />
           </div>
 
-          {/* Search Icon */}
           <div
             className="search-container d-flex align-items-center"
             style={{ cursor: "pointer", color: "white", marginRight: '70px' }}
@@ -118,7 +110,7 @@ const Header = () => {
       {/* Navbar */}
       <header className="header">
         <div className="container">
-          <NewNavbar/>
+          {userRole === "customer" ? <CustomerNavbar/> : (userRole === "expert" ? <ExpertNavbar/> : <NewNavbar/>)}
         </div>
       </header>
 

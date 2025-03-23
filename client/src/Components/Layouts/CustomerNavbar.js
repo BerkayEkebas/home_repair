@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"; // Ok ikonu eklendi
 
-const NewNavbar = () => {
+const CustomerNavbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown menünün açık olup olmadığını takip eden state
@@ -45,6 +45,11 @@ const NewNavbar = () => {
       >
         <ul className="navbar-nav mx-auto">
           {/* Anasayfa Dropdown */}
+          <li className="nav-item">
+            <Link className="nav-link color-green-hover" to="/bakanliklar">
+              Home
+            </Link>
+          </li>
           <li className="nav-item">
             <button
               className="nav-link color-green-hover d-flex align-items-center"
@@ -95,28 +100,23 @@ const NewNavbar = () => {
           </li>
 
           <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/cumhurbaskanligi">
-              Cumhurbaşkanlığı
-            </Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/bakanliklar">
-              Bakanlıklar
+              DIY
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/kurumlar">
-              Kurumlar
+              Check Experts
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/auth">
-              Login
+              Ask for Help
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/register">
-              Register
+              My Page
             </Link>
           </li>
         </ul>
@@ -125,4 +125,4 @@ const NewNavbar = () => {
   );
 };
 
-export default NewNavbar;
+export default CustomerNavbar;
