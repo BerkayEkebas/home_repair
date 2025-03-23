@@ -3,7 +3,7 @@ import React from "react";
 const MainTop = () => {
   return (
     <>
-      <div className="header-section">
+      <div className="header-section" style={{marginTop:-40}}>
                   <img
                     src="https://cdn.imweb.me/thumbnail/20240923/efac60a53f9f7.png"
                     alt="Logo"

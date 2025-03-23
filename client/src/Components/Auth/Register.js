@@ -67,7 +67,7 @@ const Register = () => {
         </Box>
       <form onSubmit={handleRegister}>
         <TextField
-          label="Ad"
+          label="성명"
           variant="outlined"
           fullWidth
           margin="normal"
@@ -76,7 +76,7 @@ const Register = () => {
           required
         />
         <TextField
-          label="E-posta"
+          label="이메일"
           variant="outlined"
           fullWidth
           margin="normal"
@@ -85,7 +85,7 @@ const Register = () => {
           required
         />
         <TextField
-          label="Şifre"
+          label="비밀번호"
           type="password"
           variant="outlined"
           fullWidth
@@ -104,7 +104,7 @@ const Register = () => {
             fullWidth
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} color="inherit" /> : 'Kayıt Ol'}
+            {loading ? <CircularProgress size={24} color="inherit" /> : '등록'}
           </Button>
         </Box>
       </form>

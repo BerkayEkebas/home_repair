@@ -50,6 +50,23 @@ const CustomerNavbar = () => {
               Home
             </Link>
           </li>
+
+
+          <li className="nav-item">
+            <Link className="nav-link color-green-hover" to="/bakanliklar">
+              DIY
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link color-green-hover" to="/kurumlar">
+              전문가 소개
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link color-green-hover" to="/auth">
+              Ask for Help
+            </Link>
+          </li>
           <li className="nav-item">
             <button
               className="nav-link color-green-hover d-flex align-items-center"
@@ -63,7 +80,7 @@ const CustomerNavbar = () => {
                 marginTop:-3
               }}
             >
-              Anasayfa
+              마이 페이지
               <KeyboardArrowDownIcon
                 style={{
                   marginLeft: 1,
@@ -82,42 +99,21 @@ const CustomerNavbar = () => {
               }}
             >
               <MenuItem onClick={handleMenuClose}>
-                <Link to="/hakkimizda" className="dropdown-item">
-                  Hakkımızda
+                <Link to="/create-request" className="dropdown-item">
+                수리 요청
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleMenuClose}>
-                <Link to="/iletisim" className="dropdown-item">
-                  İletişim
+                <Link to="/my-requests" className="dropdown-item">
+                 나의 요청
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleMenuClose}>
                 <Link to="/yardim" className="dropdown-item">
-                  Yardım
+                  프로필
                 </Link>
               </MenuItem>
             </Menu>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/bakanliklar">
-              DIY
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/kurumlar">
-              Check Experts
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/auth">
-              Ask for Help
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/register">
-              My Page
-            </Link>
           </li>
         </ul>
       </div>

@@ -38,11 +38,11 @@ const Login = () => {
       }}
     >
       <Typography variant="h4" sx={{ marginBottom: 3 }}>
-        Giriş Yap
+      로그인
       </Typography>
       <form onSubmit={handleSubmit} style={{ width: '100%' }}>
         <TextField
-          label="E-posta"
+          label="이메일"
           variant="outlined"
           fullWidth
           margin="normal"
@@ -50,7 +50,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
-          label="Şifre"
+          label="비밀번호"
           type="password"
           variant="outlined"
           fullWidth
@@ -71,15 +71,15 @@ const Login = () => {
             fullWidth
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} color="inherit" /> : 'Giriş Yap'}
+            {loading ? <CircularProgress size={24} color="inherit" /> : '로그인'}
           </Button>
         </Box>
       </form>
       <Box sx={{ marginTop: 2, textAlign: 'center' }}>
         <Typography variant="body2">
-          Henüz üye değil misiniz?{' '}
+        아직 회원이 아니신가요?{' '}
           <Button color="primary" onClick={() => navigate('/register')}>
-            Kayıt Ol
+          회원가입
           </Button>
         </Typography>
       </Box>

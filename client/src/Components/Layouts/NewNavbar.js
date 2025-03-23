@@ -1,31 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, MenuItem } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"; // Ok ikonu eklendi
+
 
 const NewNavbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown menünün açık olup olmadığını takip eden state
+
 
   const handleToggle = () => {
     setIsNavOpen(!isNavOpen);
   };
 
-  const handleMenuToggle = (event) => {
-    if (anchorEl) {
-      setAnchorEl(null);
-      setIsDropdownOpen(false);
-    } else {
-      setAnchorEl(event.currentTarget);
-      setIsDropdownOpen(true);
-    }
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setIsDropdownOpen(false);
-  };
+ 
 
   return (
     <nav className="navbar navbar-expand-md navbar-inverse">
@@ -46,77 +31,29 @@ const NewNavbar = () => {
         <ul className="navbar-nav mx-auto">
           {/* Anasayfa Dropdown */}
           <li className="nav-item">
-            <button
-              className="nav-link color-green-hover d-flex align-items-center"
-              onClick={handleMenuToggle}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none", 
-                marginTop:-3
-              }}
-            >
-              Anasayfa
-              <KeyboardArrowDownIcon
-                style={{
-                  marginLeft: 1,
-                  transition: "transform 0.3s",
-                  transform: isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
-                }}
-              />
-            </button>
-            {/* Dropdown Menüsü */}
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-              MenuListProps={{
-                onMouseLeave: handleMenuClose,
-              }}
-            >
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/hakkimizda" className="dropdown-item">
-                  Hakkımızda
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/iletisim" className="dropdown-item">
-                  İletişim
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/yardim" className="dropdown-item">
-                  Yardım
-                </Link>
-              </MenuItem>
-            </Menu>
+            <Link className="nav-link color-green-hover" to="/">
+            홈
+            </Link>
           </li>
 
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/cumhurbaskanligi">
-              Cumhurbaşkanlığı
+               주거용
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/bakanliklar">
-              Bakanlıklar
+              사무실
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link color-green-hover" to="/kurumlar">
-              Kurumlar
+            전문가 소개
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/auth">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/register">
-              Register
+            <Link className="nav-link color-green-hover" to="/kurumlar">
+            수리 문의
             </Link>
           </li>
         </ul>

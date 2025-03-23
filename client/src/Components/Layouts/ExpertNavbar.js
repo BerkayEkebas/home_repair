@@ -45,6 +45,23 @@ const ExpertNavbar = () => {
       >
         <ul className="navbar-nav mx-auto">
           {/* Anasayfa Dropdown */}
+
+
+          <li className="nav-item">
+            <Link className="nav-link color-green-hover" to="/">
+            홈
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link color-green-hover" to="/find-requests">
+              내 예약
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link color-green-hover" to="/find-requests">
+             문의 전체조회
+            </Link>
+          </li>
           <li className="nav-item">
             <button
               className="nav-link color-green-hover d-flex align-items-center"
@@ -58,7 +75,7 @@ const ExpertNavbar = () => {
                 marginTop:-3
               }}
             >
-              Anasayfa
+              마이 페이지
               <KeyboardArrowDownIcon
                 style={{
                   marginLeft: 1,
@@ -77,47 +94,16 @@ const ExpertNavbar = () => {
               }}
             >
               <MenuItem onClick={handleMenuClose}>
-                <Link to="/hakkimizda" className="dropdown-item">
-                  Hakkımızda
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/iletisim" className="dropdown-item">
-                  İletişim
+                <Link to="/find-requests" className="dropdown-item">
+                수락된 요청
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleMenuClose}>
                 <Link to="/yardim" className="dropdown-item">
-                  Yardım
+                내 정보
                 </Link>
               </MenuItem>
             </Menu>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/cumhurbaskanligi">
-              Cumhurbaşkanlığı
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/bakanliklar">
-              Bakanlıklar
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/kurumlar">
-              Kurumlar
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/auth">
-              Find Job
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/register">
-              My Page
-            </Link>
           </li>
         </ul>
       </div>

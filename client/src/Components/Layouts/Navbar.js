@@ -4,13 +4,14 @@ import NewNavbar from "./NewNavbar";
 import CustomerNavbar from "./CustomerNavbar";
 import ExpertNavbar from "./ExpertNavbar";
 import { useAuth } from "../../Context/authContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCollapsing, setIsCollapsing] = useState(false);
   const userRole = localStorage.getItem("role")?.replace(/"/g, "") || ""; // Burada tırnaklar kaldırılacak.
-  const { logout } = useAuth(); 
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async (e) => {
@@ -18,9 +19,9 @@ const Header = () => {
 
     try {
       await logout(); // AuthContext'teki login fonksiyonunu çağırıyoruz
-      navigate('/'); // Başarılı giriş sonrası yönlendirme
+      navigate("/"); // Başarılı giriş sonrası yönlendirme
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -44,8 +45,9 @@ const Header = () => {
     <>
       {/* Search */}
       <div
-        className={`top-search ${isCollapsing ? "collapsing" : ""} ${isSearchOpen ? "collapse show" : "collapse"
-          }`}
+        className={`top-search ${isCollapsing ? "collapsing" : ""} ${
+          isSearchOpen ? "collapse show" : "collapse"
+        }`}
         id="collapseExample"
         style={{
           maxHeight: isSearchOpen ? "150px" : "0",
@@ -69,23 +71,31 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="mobile-navbar" style={{ backgroundColor: "#34a346", padding: "10px 15px" }}>
-        <div className="d-flex align-items-center justify-content-between" style={{ height: "50px" }}>
-
-
+      <div
+        className="mobile-navbar"
+        style={{ backgroundColor: "#34a346", padding: "10px 15px" }}
+      >
         <div
+          className="d-flex align-items-center justify-content-between"
+          style={{ height: "50px" }}
+        >
+          <div
             className="deneme d-flex align-items-center"
-            style={{ cursor: "pointer", color: "white", marginLeft: '50px' }}
+            style={{ cursor: "pointer", color: "white", marginLeft: "50px" }}
           >
-            {userRole ? <p onClick={handleLogout}>Logout</p> : "" }
-              
-
+            {userRole ? <p onClick={handleLogout}>Logout</p> : ""}
           </div>
-        
-
 
           {/* Logo */}
-          <div className="logo-container" style={{ backgroundColor: "transparent", padding: "70px 70px", borderRadius: "5px", marginLeft: '5%' }}>
+          <div
+            className="logo-container"
+            style={{
+              backgroundColor: "transparent",
+              padding: "70px 70px",
+              borderRadius: "5px",
+              marginLeft: "16%",
+            }}
+          >
             <img
               src="https://cdn.imweb.me/thumbnail/20241114/974b51e91d3aa.png"
               alt="Logo"
@@ -98,11 +108,27 @@ const Header = () => {
 
           <div
             className="search-container d-flex align-items-center"
-            style={{ cursor: "pointer", color: "white", marginRight: '70px' }}
-            onClick={handleSearchBar}
+            style={{ cursor: "pointer", color: "white", marginRight: "30px" }}
           >
-            <SearchIcon style={{ fontSize: "24px" }} />
-            <span style={{ marginLeft: "5px", fontSize: "16px" }}>Search</span>
+            <div style={{ display: "flex" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginRight: "10px" }}
+                component={Link}
+                to="/auth"
+              >
+                로그인
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                component={Link}
+                to="/register"
+              >
+                회원가입
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -110,7 +136,13 @@ const Header = () => {
       {/* Navbar */}
       <header className="header">
         <div className="container">
-          {userRole === "customer" ? <CustomerNavbar/> : (userRole === "expert" ? <ExpertNavbar/> : <NewNavbar/>)}
+          {userRole === "customer" ? (
+            <CustomerNavbar />
+          ) : userRole === "expert" ? (
+            <ExpertNavbar />
+          ) : (
+            <NewNavbar />
+          )}
         </div>
       </header>
 

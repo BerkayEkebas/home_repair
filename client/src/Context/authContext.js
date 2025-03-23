@@ -17,10 +17,10 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const response = await axios.post('http://localhost:8800/api/auth/login', { email, password });
-      const { user,role } = response.data; // Backend'den gelen user nesnesi
+      const { user,role,user_id } = response.data; // Backend'den gelen user nesnesi
       
       // Kullanıcı bilgilerini localStorage'e kaydet
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user_id', JSON.stringify(user_id));
       localStorage.setItem('role', JSON.stringify(role));
 
       setUser(user); // State'i güncelle
