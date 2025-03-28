@@ -18,7 +18,7 @@ const Login = () => {
 
     try {
       await login(email, password); // AuthContext'teki login fonksiyonunu çağırıyoruz
-      navigate('/dashboard'); // Başarılı giriş sonrası yönlendirme
+      navigate('/'); // Başarılı giriş sonrası yönlendirme
     } catch (err) {
       setLoading(false);
       setError('Giriş başarısız, lütfen bilgilerinizi kontrol edin.');

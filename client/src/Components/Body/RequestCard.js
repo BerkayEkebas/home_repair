@@ -1,6 +1,7 @@
-import React from 'react';
-import { Card, CardContent, Typography, Box, Avatar, Button } from '@mui/material';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';  // Saat ikonu için
+import React, { useState } from 'react';
+import { Card, CardContent, Typography, Box, Avatar, Button, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CloseIcon from '@mui/icons-material/Close';
 
 const services = [
   { id: 1, name: '일반 수리' },
@@ -14,23 +15,27 @@ const services = [
 ];
 
 const RequestCard = ({ request, sx }) => {
-  // Tarihi formatlayalım
+  const [open, setOpen] = useState(false);
+
   const date = new Date(request.created_at);
   const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-
-  // Service ID'yi eşleştirip ismi bulalım
   const serviceName = services.find(service => service.id === request.service_id)?.name || '서비스 없음';
 
   return (
-    <Card sx={{ ...sx, width: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, boxShadow: 3 }}>
+    <Card sx={{ ...sx, width: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, boxShadow: 3, position: 'relative' }}>
+      {/* X Butonu */}
+      <IconButton
+        sx={{ position: 'absolute', top: 8, right: 8 }}
+        onClick={() => setOpen(true)}
+      >
+        <CloseIcon style={{color:"red"}} />
+      </IconButton>
+
       <CardContent>
         <Box display="flex" flexDirection="column" mb={2}>
-          {/* Servis ismini ekliyoruz */}
           <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
             서비스: {serviceName}
           </Typography>
-          
-          {/* Saat simgesi ve tarih */}
           <Box display="flex" alignItems="center" mb={2}>
             <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
               <AccessTimeIcon sx={{ color: 'white' }} />
@@ -48,13 +53,33 @@ const RequestCard = ({ request, sx }) => {
           설명: {request.description}
         </Typography>
         
-        {/* Teklifleri Gör butonu */}
         <Box display="flex" justifyContent="flex-end" mt={2}>
           <Button variant="contained" color="primary">
             제안 보기
           </Button>
         </Box>
       </CardContent>
+
+      {/* Silme Onay Popup */}
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>삭제 확인</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            이 요청을 삭제하시겠습니까?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} color="primary">
+            취소
+          </Button>
+          <Button onClick={() => {
+            console.log('삭제됨'); // Buraya silme işlemi eklenebilir
+            setOpen(false);
+          }} color="error" autoFocus>
+            삭제
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };

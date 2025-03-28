@@ -21,6 +21,7 @@ import Register from "./Components/Auth/Register";
 import CreateRequest from "./Components/Body/CreateRequest";
 import MyRequests from "./Components/Body/MyRequests";
 import ExpertRequests from "./Components/Body/ExpertRequest";
+import RepairRequestForm from "./Components/Body/RepairRequestForm";
 
 
 function App() {
@@ -42,13 +43,8 @@ function App() {
       <Route path="/create-request" element={<CreateRequest />} />
       <Route path="/my-requests" element={<MyRequests />} />
       <Route path="/find-requests" element={<ExpertRequests />} />
-      <Route path="/panel" element={<HomePage />} />
-      <Route path="/anasayfa" element={<HomePage />} />
-      <Route path="/kurumlar" element={<HomePage />} />
-      <Route path="/bakanliklar" element={<HomePage />} />
-      <Route path="/cumhurbaskanligi" element={<HomePage />} />
-      <Route path="/resmi-gazete" element={<HomePage />} />
-      <Route path="/:siteId" element={<HomePage />} />
+      <Route path="/repair-request" element={<RepairRequestForm />} />
+     
       <Route path="/auth" element={<Login />} />
       <Route path="/loading" element={<LoadingDuyurular />} />
       <Route path="/search/:searchTerm" element={<SearchPage />} />

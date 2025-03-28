@@ -81,9 +81,16 @@ const Header = () => {
         >
           <div
             className="deneme d-flex align-items-center"
-            style={{ cursor: "pointer", color: "white", marginLeft: "50px" }}
+            style={{ cursor: "pointer", color: "white", marginLeft: "1px" }}
           >
-            {userRole ? <p onClick={handleLogout}>Logout</p> : ""}
+            <Button
+                variant="contained"
+                style={{backgroundColor:"white", marginRight: "-80px", color:"green" }}
+                component={Link}
+                to="/repair-request"
+              >
+                수리 문의
+              </Button>
           </div>
 
           {/* Logo */}
@@ -109,12 +116,18 @@ const Header = () => {
           <div
             className="search-container d-flex align-items-center"
             style={{ cursor: "pointer", color: "white", marginRight: "30px" }}
+          >{userRole ?               <Button
+            variant="contained"
+            style={{backgroundColor:"green", marginRight: "10px" }}
+            component={Link}
+            to="/auth"
+            onClick={handleLogout}
           >
-            <div style={{ display: "flex" }}>
+            로그아웃
+          </Button> :             <div style={{ display: "flex" }}>
               <Button
                 variant="contained"
-                color="primary"
-                style={{ marginRight: "10px" }}
+                style={{backgroundColor:"green", marginRight: "10px" }}
                 component={Link}
                 to="/auth"
               >
@@ -122,13 +135,14 @@ const Header = () => {
               </Button>
               <Button
                 variant="contained"
-                color="secondary"
+                style={{backgroundColor:"green"}}
                 component={Link}
                 to="/register"
               >
                 회원가입
               </Button>
-            </div>
+            </div> }
+
           </div>
         </div>
       </div>

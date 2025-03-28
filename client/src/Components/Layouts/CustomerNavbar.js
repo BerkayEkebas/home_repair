@@ -46,8 +46,8 @@ const CustomerNavbar = () => {
         <ul className="navbar-nav mx-auto">
           {/* Anasayfa Dropdown */}
           <li className="nav-item">
-            <Link className="nav-link color-green-hover" to="/bakanliklar">
-              Home
+            <Link className="nav-link color-green-hover" to="/">
+            홈
             </Link>
           </li>
 
@@ -110,7 +110,7 @@ const CustomerNavbar = () => {
               </MenuItem>
               <MenuItem onClick={handleMenuClose}>
                 <Link to="/yardim" className="dropdown-item">
-                  프로필
+                  내 정보
                 </Link>
               </MenuItem>
             </Menu>
