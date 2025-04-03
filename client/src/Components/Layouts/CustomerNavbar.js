@@ -109,7 +109,7 @@ const CustomerNavbar = () => {
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleMenuClose}>
-                <Link to="/yardim" className="dropdown-item">
+                <Link to="/" className="dropdown-item">
                   내 정보
                 </Link>
               </MenuItem>

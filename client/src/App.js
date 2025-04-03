@@ -22,6 +22,10 @@ import CreateRequest from "./Components/Body/CreateRequest";
 import MyRequests from "./Components/Body/MyRequests";
 import ExpertRequests from "./Components/Body/ExpertRequest";
 import RepairRequestForm from "./Components/Body/RepairRequestForm";
+import OfferPage from "./Components/Body/OfferPage";
+import MyPageExpert from "./Components/Body/MyPageExpert";
+import ExpertDetails from "./Components/Body/ExpertDetails";
+import CheckOffer from "./Components/Body/CheckOffer";
 
 
 function App() {
@@ -44,6 +48,10 @@ function App() {
       <Route path="/my-requests" element={<MyRequests />} />
       <Route path="/find-requests" element={<ExpertRequests />} />
       <Route path="/repair-request" element={<RepairRequestForm />} />
+      <Route path="/offer/:id" element={<OfferPage />} />
+      <Route path="/check-offer/:request_id" element={<CheckOffer />} />
+      <Route path="/my-expert-page" element={<MyPageExpert />} />
+      <Route path="/create-expert-details" element={<ExpertDetails />} />
      
       <Route path="/auth" element={<Login />} />
       <Route path="/loading" element={<LoadingDuyurular />} />

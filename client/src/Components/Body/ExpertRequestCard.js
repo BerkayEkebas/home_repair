@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box, Avatar, Button } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';  // Saat ikonu için
+import { Link } from 'react-router-dom';
 
 const services = [
   { id: 1, name: '일반 수리' },
@@ -13,7 +14,7 @@ const services = [
   { id: 8, name: '기타 수리' }
 ];
 
-const ExpertRequestCard = ({ request, sx, onOfferClick }) => {
+const ExpertRequestCard = ({ request, sx }) => {
   // Tarihi formatlayalım
   const date = new Date(request.created_at);
   const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -50,13 +51,14 @@ const ExpertRequestCard = ({ request, sx, onOfferClick }) => {
         
         {/* Teklif Ver butonu */}
         <Box display="flex" justifyContent="flex-end" mt={2}>
+          <Link to={`/offer/${request.id}`}>
           <Button 
             variant="contained" 
             color="primary" 
-            onClick={() => onOfferClick(request.id)} // Butona tıklanınca teklif verme işlevi
           >
             제안하기
-          </Button>
+          </Button></Link>
+
         </Box>
       </CardContent>
     </Card>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, Box, Avatar, Button, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CloseIcon from '@mui/icons-material/Close';
+import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const services = [
   { id: 1, name: '일반 수리' },
@@ -16,10 +18,23 @@ const services = [
 
 const RequestCard = ({ request, sx }) => {
   const [open, setOpen] = useState(false);
-
+  const storedUserId = localStorage.getItem('user_id');
   const date = new Date(request.created_at);
   const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   const serviceName = services.find(service => service.id === request.service_id)?.name || '서비스 없음';
+
+  const deleteRequest = async (user_id, request_id) =>{
+    try {
+      const response = await axios.post('http://localhost:8800/api/customer/delete-request', {
+          user_id,
+          request_id,
+      });
+      console.log(response.data.message);
+      window.location.href="/my-requests"
+  } catch (error) {
+      console.error("요청 삭제 중 오류 발생:", error);
+  }
+  }
 
   return (
     <Card sx={{ ...sx, width: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, boxShadow: 3, position: 'relative' }}>
@@ -54,9 +69,12 @@ const RequestCard = ({ request, sx }) => {
         </Typography>
         
         <Box display="flex" justifyContent="flex-end" mt={2}>
+          <Link to={`/check-offer/${request.id}`}>
           <Button variant="contained" color="primary">
             제안 보기
           </Button>
+          </Link>
+
         </Box>
       </CardContent>
 
@@ -73,7 +91,7 @@ const RequestCard = ({ request, sx }) => {
             취소
           </Button>
           <Button onClick={() => {
-            console.log('삭제됨'); // Buraya silme işlemi eklenebilir
+            deleteRequest(storedUserId,request.id);
             setOpen(false);
           }} color="error" autoFocus>
             삭제

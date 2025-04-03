@@ -45,3 +45,52 @@ export const createRequests = (req, res) => {
         });
     });
 };
+
+
+export const deleteRequest = (req, res) => {
+    const { user_id, request_id } = req.body;  // user_id ve request_id'yi body'den alıyoruz
+  
+    if (!user_id || !request_id) {
+      return res.status(400).json({ message: "User ID and Request ID are required" });  // Eksik parametre hatası
+    }
+  
+    const q = "DELETE FROM requests WHERE user_id = ? AND id = ?";
+    
+    db.query(q, [user_id, request_id], (err, result) => {
+      if (err) return res.status(500).json(err);
+      if (result.affectedRows === 0) return res.status(404).json({ message: "Request not found or unauthorized" });
+      return res.status(200).json({ message: "Request deleted successfully" });
+    });
+};
+
+export const getOffersByRequestId = (req, res) => {
+  const { request_id } = req.params;
+
+  if (!request_id) {
+      return res.status(400).json({ error: 'request_id zorunludur.' });
+  }
+
+  const query = `
+      SELECT o.*, e.* 
+      FROM offers o
+      JOIN experts e ON o.expert_id = e.id
+      WHERE o.request_id = ?
+  `;
+
+  db.query(query, [request_id], (err, results) => {
+      if (err) {
+          console.error('Teklifleri getirirken hata:', err);
+          return res.status(500).json({ error: 'Teklifleri alırken bir hata oluştu.' });
+      }
+
+      if (results.length === 0) {
+          return res.status(404).json({ error: 'Bu request_id için teklif bulunamadı.' });
+      }
+
+      res.json(results);
+  });
+};
+
+
+
+

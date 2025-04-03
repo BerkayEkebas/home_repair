@@ -99,7 +99,7 @@ const ExpertNavbar = () => {
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleMenuClose}>
-                <Link to="/yardim" className="dropdown-item">
+                <Link to="/my-expert-page" className="dropdown-item">
                 내 정보
                 </Link>
               </MenuItem>
